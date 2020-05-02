@@ -1,6 +1,10 @@
+import 'injection_container.dart' as di;
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await di.init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
