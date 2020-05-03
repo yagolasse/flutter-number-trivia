@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:number_trivia/core/resources/strings.dart';
 import 'package:number_trivia/features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
 import 'package:number_trivia/features/number_trivia/presentation/widgets/loading_widget.dart';
 import 'package:number_trivia/features/number_trivia/presentation/widgets/message_display.dart';
 import 'package:number_trivia/features/number_trivia/presentation/widgets/trivia_display.dart';
+import 'package:number_trivia/features/theme/pages/preferences_page.dart';
 import 'package:number_trivia/injection_container.dart';
 
 class NumberTriviaPage extends StatelessWidget {
@@ -12,11 +14,21 @@ class NumberTriviaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Number Trivia'),
+        title: Text(APP_TITLE),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) {
+                  return PreferencesPage();
+                }),
+              );
+            },
+          )
+        ],
       ),
-      body: SingleChildScrollView(
-        child: _buildBody(context),
-      ),
+      body: SingleChildScrollView(child: _buildBody(context)),
     );
   }
 
@@ -25,7 +37,7 @@ class NumberTriviaPage extends StatelessWidget {
       create: (_) => sl<NumberTriviaBloc>(),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
               SizedBox(height: 10),
@@ -34,18 +46,12 @@ class NumberTriviaPage extends StatelessWidget {
                   if (state is Loading) {
                     return LoadingWidget();
                   } else if (state is Error) {
-                    return MessageDisplay(
-                      message: state.message,
-                    );
+                    return MessageDisplay(message: state.message);
                   } else if (state is Loaded) {
-                    return TriviaDisplay(
-                      numberTrivia: state.trivia,
-                    );
+                    return TriviaDisplay(numberTrivia: state.trivia);
                   }
-                  // If state is loading
-                  return MessageDisplay(
-                    message: 'Start Searching',
-                  );
+                  // If state is empty
+                  return MessageDisplay(message: START_SEARCHING);
                 },
               ),
               SizedBox(height: 20),
@@ -77,7 +83,7 @@ class _TriviaControlsState extends State<TriviaControls> {
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              hintText: ' Input a number',
+              hintText: INPUT_A_NUMBER,
             ),
             onChanged: (value) {
               inputString = value;
@@ -86,14 +92,12 @@ class _TriviaControlsState extends State<TriviaControls> {
               dispatchConcrete();
             },
           ),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 10),
           Row(
             children: <Widget>[
               Expanded(
                 child: RaisedButton(
-                  child: Text('Search'),
+                  child: Text(START_SEARCHING),
                   color: Theme.of(context).accentColor,
                   textTheme: ButtonTextTheme.primary,
                   onPressed: dispatchConcrete,
@@ -102,7 +106,7 @@ class _TriviaControlsState extends State<TriviaControls> {
               SizedBox(width: 10),
               Expanded(
                 child: RaisedButton(
-                  child: Text('Get random trivia'),
+                  child: Text(GET_RANDOM_TRIVIA),
                   onPressed: dispatchRandom,
                 ),
               )

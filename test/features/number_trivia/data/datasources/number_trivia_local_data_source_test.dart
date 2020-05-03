@@ -1,11 +1,12 @@
 import 'dart:convert';
+
+import 'package:flutter_test/flutter_test.dart';
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:number_trivia/core/error/exception.dart';
 import 'package:number_trivia/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:number_trivia/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,7 +18,8 @@ void main() {
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
-    dataSource = NumberTriviaLocalDataSourceImpl(sharedPreferences: mockSharedPreferences);
+    dataSource = NumberTriviaLocalDataSourceImpl(
+        sharedPreferences: mockSharedPreferences);
   });
 
   group('getLastNumberTrivia', () {
@@ -38,13 +40,14 @@ void main() {
       },
     );
 
-    test('should throw a CacheException when there is not a cached value', () async {
+    test('should throw a CacheException when there is not a cached value',
+        () async {
       // arrange
       when(mockSharedPreferences.getString(any)).thenReturn(null);
       try {
         // act
         await dataSource.getLastNumberTrivia();
-      } catch(e) {
+      } catch (e) {
         // assert
         expect(e, isA<CacheException>());
       }

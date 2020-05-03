@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:number_trivia/core/resources/strings.dart';
 import 'package:number_trivia/features/number_trivia/presentation/pages/number_trivia_page.dart';
+import 'package:number_trivia/features/theme/presentation/bloc/theme_bloc.dart';
 
 import 'injection_container.dart' as di;
-import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,13 +16,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Number Trivia',
-      theme: ThemeData(
-        primaryColor: Colors.green.shade800,
-        accentColor: Colors.green.shade600,
+    return BlocProvider(
+      create: (context) => di.sl<ThemeBloc>(),
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: APP_TITLE,
+            theme: state.themeData,
+            home: NumberTriviaPage(),
+          );
+        },
       ),
-      home: NumberTriviaPage(),
     );
   }
 }

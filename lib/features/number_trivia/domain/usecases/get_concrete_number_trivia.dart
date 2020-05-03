@@ -6,7 +6,7 @@ import 'package:number_trivia/core/usecases/usecase.dart';
 import 'package:number_trivia/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:number_trivia/features/number_trivia/domain/repositories/number_trivia_repository.dart';
 
-class GetConcreteNumberTrivia extends UseCase<NumberTrivia, Params>{
+class GetConcreteNumberTrivia extends UseCase<NumberTrivia, Params> {
   final NumberTriviaRepository _repository;
 
   GetConcreteNumberTrivia(this._repository);
@@ -19,7 +19,9 @@ class GetConcreteNumberTrivia extends UseCase<NumberTrivia, Params>{
 
 class Params extends Equatable {
   final int number;
+
   Params({@required this.number});
+
   @override
   List<Object> get props => [number];
 }

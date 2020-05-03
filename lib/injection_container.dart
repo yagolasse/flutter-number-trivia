@@ -10,6 +10,7 @@ import 'package:number_trivia/features/number_trivia/domain/repositories/number_
 import 'package:number_trivia/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:number_trivia/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:number_trivia/features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
+import 'package:number_trivia/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -21,6 +22,7 @@ Future<void> init() async {
         getRandomNumberTrivia: sl(),
         inputConverter: sl(),
       ));
+  sl.registerFactory(() => ThemeBloc());
 
   // Use Cases
   sl.registerLazySingleton(() => GetConcreteNumberTrivia(sl()));
