@@ -13,7 +13,6 @@ import 'package:number_trivia/features/number_trivia/domain/usecases/get_concret
 import 'package:number_trivia/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 
 part 'number_trivia_event.dart';
-
 part 'number_trivia_state.dart';
 
 class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
