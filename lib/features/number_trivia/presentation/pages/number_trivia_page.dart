@@ -43,15 +43,11 @@ class NumberTriviaPage extends StatelessWidget {
               SizedBox(height: 10),
               BlocBuilder<NumberTriviaBloc, NumberTriviaState>(
                 builder: (context, state) {
-                  if (state is Loading) {
-                    return LoadingWidget();
-                  } else if (state is Error) {
-                    return MessageDisplay(message: state.message);
-                  } else if (state is Loaded) {
-                    return TriviaDisplay(numberTrivia: state.trivia);
-                  }
-                  // If state is empty
-                  return MessageDisplay(message: START_SEARCHING);
+                  return AnimatedSwitcher(
+                    duration: Duration(milliseconds: 200),
+                
+                    child: _getCurrentViewForState(state),
+                  );
                 },
               ),
               SizedBox(height: 20),
@@ -61,6 +57,19 @@ class NumberTriviaPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _getCurrentViewForState(NumberTriviaState state) {
+    // Using keys for the animator calling
+    if (state is Loading) {
+      return LoadingWidget(key: ValueKey<int>(1));
+    } else if (state is Error) {
+      return MessageDisplay(key: ValueKey<int>(2), message: state.message);
+    } else if (state is Loaded) {
+      return TriviaDisplay(key: ValueKey<int>(3), numberTrivia: state.trivia);
+    }
+    // If state is empty
+    return MessageDisplay(key: ValueKey<int>(0), message: START_SEARCHING);
   }
 }
 
